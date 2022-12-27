@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="shortcut icon" href="favicon.ico" type="image/x-icon">
+    <title>Scan</title>
+    <a href="https://www.jovensgenios.com.br"><img src="logo.png" alt="Logo Jovens Gênios" id="logo"></a>
+</head>
+<link rel="stylesheet" href="scan.css">
+
+<body>
+  
+  
+ 
+    
+    
+    <script src="html5-qrcode.min.js"></script>
+    <div class="row">
+      <div class="col">
+        <div style="width:500px;" id="reader"></div>
+      </div>
+      
+    </div>
+    <script type="text/javascript">
+    function onScanSuccess(qrCodeMessage) {
+        document.getElementById('result').innerHTML = '<span class="result">'+qrCodeMessage+'</span>';
+    }
+    function onScanError(errorMessage) {
+      //handle scan error
+    }
+    var html5QrcodeScanner = new Html5QrcodeScanner(
+        "reader", { fps: 10, qrbox: 250 });
+    html5QrcodeScanner.render(onScanSuccess, onScanError);
+    </script>
+    <br>
+    <button type="button" class="solid" onclick="logout()">Sair</button>
+
+    
+
+    <h4>Código de Patrimônio</h4>
+    <div class="col" style="padding:30px;">     
+     <div id="result"> </div>
+    </div>
+    <!---<ul id="dadosItem">Dados do item</ul> -->
+    <div id="dbResult">
+
+      
+      <h4>Insira o código de Patrimônio</h4>
+       <input id="findID" type="text">
+      <button id="find" class="solid">Procurar</button>
+  
+      </div>
+        <h1>Dados dos Itens</h1>
+        <h3 id="findItem" type = "text"> </h3>
+
+        <h3 id="Item" type="text"></h3>
+        <h3 id="Entregue" type="text"></h3>
+        <h3 id="Armazenamento" type="text"></h3>
+        <h3 id="CodigoDePatrimonio" type="text"></h3>
+        <h3 id="Estado" type="text"></h3>
+        <h3 id="MemoriaRam" type="text"></h3>
+        <h3 id="NumeroDeSerie" type="text"></h3>
+        <h3 id="Processador" type="text"></h3>
+        <h3 id="SistemaOperacional" type="text"></h3>
+
+
+    </div>
+
+    
+  
+
+    </script>
+   <script src="https://www.gstatic.com/firebasejs/9.15.0/firebase-app-compat.js"></script>
+   <script src="https://www.gstatic.com/firebasejs/9.15.0/firebase-auth-compat.js"></script> 
+   <script src="scan.js"></script>
+   <script src="auth-guard.js"></script>
+
+  <script type="module">
+      
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/9.15.0/firebase-app.js";
+    const firebaseConfig = {
+      apiKey: "AIzaSyDeeqdP5trIFnXVirZL1vEcFA6X6mil5Jw",
+      authDomain: "qrcodejg.firebaseapp.com",
+      projectId: "qrcodejg",
+      storageBucket: "qrcodejg.appspot.com",
+      messagingSenderId: "583377091478",
+      appId: "1:583377091478:web:c3ec5d80ae561f76bdbbb7"
+    };
+    const app = firebase.initializeApp(firebaseConfig);
+    
+    
+    import{getDataBase, set, get, update, remove, ref, child}
+    from "https://console.firebase.google.com/project/qrcodejg/database/qrcodejg-default-rtdb/data/BancoDeDados"
+    
+    const db = getDatabase();
+    
+    var result = document.querySelector("#ResultCod");
+    var find = document.querySelector("#CodigoDePatrimônio");
+
+    function FindData() {
+      const dbref = ref(db);
+
+      get(child(dbref, "BancoDeDados/" + CodigoDePatrimônio.value))
+      .then((snapshot) => {
+        if(snapshot.exists()) {
+
+          findItem.innerHTML = "Item: " + snapshot.val().Item;
+          findItem.innerHTML = "Entregue: " + snapshot.val().Entregue;
+          findItem.innerHTML = "Armazenamento: " + snapshot.val().Armazenamento;
+          findItem.innerHTML = "Código de Patrimônio: " + snapshot.val().CodigoDePatrimônio;
+          findItem.innerHTML = "Estado: " + snapshot.val().Estado;
+          findItem.innerHTML = "Memória Ram: " + snapshot.val().MemoriaRam;
+          findItem.innerHTML = "Número de Série: " + snapshot.val().Nserie;
+          findItem.innerHTML = "Processador: " + snapshot.val().Processador;
+          findItem.innerHTML = "Sistema Operacional: " + snapshot.val().SistemaOperacional;
+          findItem.innerHTML = "Obs: " + snapshot.val().Obs;
+          } else {
+            alert("Código não encontrado!");
+        }
+                      
+      })
+
+      .catch((error) =>{
+        alert(error)          
+      
+      })
+
+
+    }
+
+    
+    
+    find.addEventListener('click', FindData); 
+
+
+  
+
+
+  </script>
+  
+  
+  
+
+</body>
+</html>
