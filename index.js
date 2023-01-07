@@ -88,18 +88,19 @@ function getErrorMessage(error){
     return error.message;
 }
 
-function togglePasswordErrors(){
+/*function togglePasswordErrors(){
     const password = form.password().value;
     form.passwordRequired().style.display = !password ? "block" : "none";
 
-    /*if (!password){
+    if (!password){
         form.passwordRequired().style.display = 'block';
     } else { 
         form.passwordRequired().style.display = 'none';
-    }*/
+    }
 }
 
-function toggleButtonsDisabled(){
+
+/*function toggleButtonsDisabled(){
     const emailValid = isEmailValid();
     form.recoverPasswordButton().disabled = !emailValid;
    
@@ -107,7 +108,15 @@ function toggleButtonsDisabled(){
     form.loginButton().disabled = !emailValid || !passwordValid;
 
 
-}
+}*/
+
+var input = document.getElementById("password");
+input.addEventListener("keypress", function(event) {
+  if (event.key === "Enter") {
+    event.preventDefault();
+    document.getElementById("entrar").click();
+  }
+});
 
 const form = {
     email: () => document.getElementById('email'),

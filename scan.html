@@ -6,14 +6,36 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="shortcut icon" href="favicon.ico" type="image/x-icon">
     <title>Scan</title>
-    <a href="https://www.jovensgenios.com.br"><img src="logo.png" alt="Logo Jovens Gênios" id="logo"></a>
+    <a href="https://www.jovensgenios.com"><img src="logo.png" alt="Logo Jovens Gênios" id="logo"></a>
 </head>
 <link rel="stylesheet" href="scan.css">
 
+
 <body>
   
+  <script src="https://www.gstatic.com/firebasejs/9.15.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.15.0/firebase-auth-compat.js"></script>
   
  
+  <script>
+
+  const firebaseConfig = {
+      apiKey: "AIzaSyDeeqdP5trIFnXVirZL1vEcFA6X6mil5Jw",
+      authDomain: "qrcodejg.firebaseapp.com",
+      projectId: "qrcodejg",
+      storageBucket: "qrcodejg.appspot.com",
+      messagingSenderId: "583377091478",
+      appId: "1:583377091478:web:c3ec5d80ae561f76bdbbb7",
+      databaseURL:"https://qrcodejg-default-rtdb.firebaseio.com/BancoDeDados"
+    };
+    
+
+    const app = firebase.initializeApp(firebaseConfig);
+  
+
+  </script>
+ 
+  <script src="auth-guard.js"></script>
     
     
     <script src="html5-qrcode.min.js"></script>
@@ -44,65 +66,65 @@
      <div id="result"> </div>
     </div>
     <!---<ul id="dadosItem">Dados do item</ul> -->
-    <div id="dbResult">
+    
 
       
       <h4>Insira o código de Patrimônio</h4>
        <input id="findID" type="text">
       <button id="find" class="solid">Procurar</button>
   
-      </div>
+    
         <h1>Dados dos Itens</h1>
         <h3 id="findItem" type = "text"> </h3>
 
         <h3 id="Item" type="text"></h3>
         <h3 id="Entregue" type="text"></h3>
         <h3 id="Armazenamento" type="text"></h3>
-        <h3 id="CodigoDePatrimonio" type="text"></h3>
+        <h3 id="CodigoDePatrimônio" type="text"></h3>
         <h3 id="Estado" type="text"></h3>
         <h3 id="MemoriaRam" type="text"></h3>
-        <h3 id="NumeroDeSerie" type="text"></h3>
+        <h3 id="Nserie" type="text"></h3>
         <h3 id="Processador" type="text"></h3>
         <h3 id="SistemaOperacional" type="text"></h3>
 
 
-    </div>
+    
 
     
   
 
     </script>
-   <script src="https://www.gstatic.com/firebasejs/9.15.0/firebase-app-compat.js"></script>
-   <script src="https://www.gstatic.com/firebasejs/9.15.0/firebase-auth-compat.js"></script> 
+   
    <script src="scan.js"></script>
-   <script src="auth-guard.js"></script>
+   
 
-  <script type="module">
-      
-    import { initializeApp } from "https://www.gstatic.com/firebasejs/9.15.0/firebase-app.js";
-    const firebaseConfig = {
-      apiKey: "AIzaSyDeeqdP5trIFnXVirZL1vEcFA6X6mil5Jw",
-      authDomain: "qrcodejg.firebaseapp.com",
-      projectId: "qrcodejg",
-      storageBucket: "qrcodejg.appspot.com",
-      messagingSenderId: "583377091478",
-      appId: "1:583377091478:web:c3ec5d80ae561f76bdbbb7"
-    };
-    const app = firebase.initializeApp(firebaseConfig);
+  <script type="module"> 
+
+    import{getDatabase, set, get, update, remove, ref, child} 
+    from "https://www.gstatic.com/firebasejs/9.15.0/firebase-database.js";
     
-    
-    import{getDataBase, set, get, update, remove, ref, child}
-    from "https://console.firebase.google.com/project/qrcodejg/database/qrcodejg-default-rtdb/data/BancoDeDados"
-    
-    const db = getDatabase();
-    
+    const db = getDatabase(app);
+  
+
+    var findItem = document.querySelector("#findItem");    
     var result = document.querySelector("#ResultCod");
+    var findID = document.querySelector("#findID");
     var find = document.querySelector("#CodigoDePatrimônio");
+    var Item = document.querySelector("#Item");
+    var Entregue = document.querySelector("#Entregue");
+    var Armazenamento = document.querySelector("#Armazenamento");
+    var CodigoDePatrimonio = document.querySelector("#CodigoDePatrimônio");
+    var Estado = Document.querySelector("#Estado");
+    var MemoriaRam = document.querySelector("#MemoriaRam");
+    var Nserie = document.querySelector("#Nserie");
+    var Processador = document.querySelector("#Processador");
+    var SistemaOperacional = document.querySelector("#SistemaOperacional");
+    var Obs = document.querySelector("#Obs");
 
     function FindData() {
       const dbref = ref(db);
 
-      get(child(dbref, "BancoDeDados/" + CodigoDePatrimônio.value))
+      get(child(dbref, "BancoDeDados/" + find.value))
       .then((snapshot) => {
         if(snapshot.exists()) {
 
@@ -140,8 +162,7 @@
 
   </script>
   
-  
-  
+
 
 </body>
 </html>
